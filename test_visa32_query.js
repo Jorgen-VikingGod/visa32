@@ -1,9 +1,9 @@
 var visa = require('./visa32.js');
 
-var address = process.argv[2]; //192.168.25.228
-var query   = process.argv[3]; //*IDN?
+var address = process.argv[2]; // 192.168.123.123
+var query   = process.argv[3]; // *IDN?
 if (!address) {
-  address = '192.168.25.228';
+  address = '192.168.123.123';
 }
 if (!query) {
   query = '*IDN?';
