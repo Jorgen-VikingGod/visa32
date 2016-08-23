@@ -2,14 +2,17 @@
 
 Simple VISA SCPI interface for node.js (tested only on Windows7 + Library not for commercial use!!!)
 
+## install
+```npm install visa32```
 
+## example (test_visa_query.js)
 ```javascript
 var visa    = require('visa32');
 
-var address = process.argv[2]; //192.168.25.228
-var query   = process.argv[3]; //*IDN?
+var address = process.argv[2]; // ip or hostname, e.g. 192.168.123.123
+var query   = process.argv[3]; // query, e.g. *IDN? or *OPT?
 
-if (!address) address = '192.168.25.228';
+if (!address) address = '192.168.123.123';
 if (!query)   query = '*IDN?';
 
 visa.query('tcpip::' + address + '::instr', query, function(err, result){
@@ -17,3 +20,10 @@ visa.query('tcpip::' + address + '::instr', query, function(err, result){
   console.log(result);
 });
 ```
+
+## commandline call
+```
+> node test_visa_query.js 192.168.123.123 *IDN?
+Rohde&Schwarz,ESW-26,XXXXXXX,XXXXXX
+```
+
