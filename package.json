@@ -2,16 +2,18 @@
   "name": "visa32",
   "description": "visa SCPI remote interface for node.js",
   "keywords": [
-    "visa32"
+    "visa32",
+    "visa",
+    "scpi"
   ],
-  "version": "0.1.0",
+  "version": "0.1.2",
   "homepage": "https://github.com/Jorgen-VikingGod/visa32",
   "repository": {
     "type": "git",
     "url": "git://github.com/Jorgen-VikingGod/visa32.git"
   },
   "main": "./visa32.js",
-  "devDependencies": {
+  "dependencies": {
     "ref": "~1.3.2",
     "ffi": "~2.1.0",
     "ref-array": "~1.1.2",
@@ -21,12 +23,15 @@
   "bugs": {
     "url": "https://github.com/Jorgen-VikingGod/visa32/issues"
   },
-  "_id": "visa32@0.1.0",
+  "_id": "visa32@0.1.2",
   "_npmVersion": "2.14.20",
   "_nodeVersion": "4.4.1",
   "_npmUser": {
     "name": "jorgen-vikinggod",
     "email": "jorgenvikinggod@gmail.com"
   },
-  "readme": "ERROR: No README data found!"
+  "readme": "ERROR: No README data found!",
+  "scripts": {},
+  "_shasum": "c8e7c5bcb77cbc83aae2522ffeee11c330236b8e",
+  "_from": "visa32@latest"
 }
