@@ -6,7 +6,7 @@
     "visa",
     "scpi"
   ],
-  "version": "0.1.5",
+  "version": "0.1.6",
   "homepage": "https://github.com/Jorgen-VikingGod/visa32",
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/Jorgen-VikingGod/visa32/issues"
   },
-  "_id": "visa32@0.1.5",
+  "_id": "visa32@0.1.6",
   "_npmVersion": "2.14.20",
   "_nodeVersion": "4.4.1",
   "_npmUser": {
