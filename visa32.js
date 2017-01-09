@@ -30,12 +30,12 @@ module.exports = {
   close:          function(visaSession, callback){              return visaClose(visaSession, callback);              },
   write:          function(visaSession, queryString, callback){ return visaWrite(visaSession, queryString, callback); },
   read:           function(visaSession, callback){              return visaRead(visaSession, callback);               },
-	query:          function(visaAddress, queryString, callback){ return visaQuery(visaAddress, queryString, callback); }
+  query:          function(visaAddress, queryString, callback){ return visaQuery(visaAddress, queryString, callback); }
 }
 
 // implementation
 function visaOpenDefaultRM(callback){
-	assert.equal(typeof (callback), 'function');
+  assert.equal(typeof (callback), 'function');
   // exported methods
   var viOpenDefaultRMPointer = visa32.get('viOpenDefaultRM');
   // method definition
@@ -51,8 +51,8 @@ function visaOpenDefaultRM(callback){
 
 function visaOpen(visaSession, visaAddress, callback){
   //assert.equal(typeof (visaSession), 'int',    'argument "visaSession" must be a int');
-	assert.equal(typeof (visaAddress), 'string', 'argument "visaAddress" must be a string');
-	assert.equal(typeof (callback), 'function');
+  assert.equal(typeof (visaAddress), 'string', 'argument "visaAddress" must be a string');
+  assert.equal(typeof (callback), 'function');
   // exported methods
   var viOpenPointer = visa32.get('viOpen');
   // method definition
@@ -67,9 +67,9 @@ function visaOpen(visaSession, visaAddress, callback){
 }
 
 function visaWrite(visaSession, queryString, callback){
-	//assert.equal(typeof (visaSession), 'int',    'argument "visaSession" must be a int');
+  //assert.equal(typeof (visaSession), 'int',    'argument "visaSession" must be a int');
   assert.equal(typeof (queryString), 'string', 'argument "queryString" must be a string');
-	assert.equal(typeof (callback), 'function');
+  assert.equal(typeof (callback), 'function');
   var queryStr = queryString + '\n';
   // exported methods
   var viWritePointer = visa32.get('viWrite');
@@ -85,8 +85,8 @@ function visaWrite(visaSession, queryString, callback){
 }
 
 function visaRead(visaSession, callback){
-	//assert.equal(typeof (visaSession), 'int', 'argument "visaSession" must be a int');
-	assert.equal(typeof (callback), 'function');
+  //assert.equal(typeof (visaSession), 'int', 'argument "visaSession" must be a int');
+  assert.equal(typeof (callback), 'function');
   // exported methods
   var viReadPointer = visa32.get('viRead');
   // method definition
@@ -104,8 +104,8 @@ function visaRead(visaSession, callback){
 }
 
 function visaClose(visaSession, callback){
-	//assert.equal(typeof (visaSession), 'int', 'argument "visaSession" must be a int');
-	assert.equal(typeof (callback), 'function');
+  //assert.equal(typeof (visaSession), 'int', 'argument "visaSession" must be a int');
+  assert.equal(typeof (callback), 'function');
   // exported methods
   var viClosePointer = visa32.get('viClose');
   // method definition
@@ -117,9 +117,9 @@ function visaClose(visaSession, callback){
 }
 
 function visaQuery(visaAddress, queryString, callback){
-	assert.equal(typeof (visaAddress), 'string', 'argument "visaAddress" must be a string');
-	assert.equal(typeof (queryString), 'string', 'argument "queryString" must be a string');
-	assert.equal(typeof (callback), 'function');
+  assert.equal(typeof (visaAddress), 'string', 'argument "visaAddress" must be a string');
+  assert.equal(typeof (queryString), 'string', 'argument "queryString" must be a string');
+  assert.equal(typeof (callback), 'function');
   var queryStr = queryString + '\n';
   // exported methods
   var viOpenDefaultRMPointer  = visa32.get('viOpenDefaultRM');
@@ -160,5 +160,5 @@ function visaQuery(visaAddress, queryString, callback){
   viClose()(sessionDevice);
   viClose()(resourceManager);
   // return query result
-	callback(null, returnBuffer.toString());
+  callback(null, returnBuffer.toString());
 }
