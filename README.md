@@ -3,7 +3,7 @@
 Simple VISA SCPI interface for node.js (tested only on Windows7 + Library not for commercial use!!!)
 
 ## install
->```npm install visa32```
+> `npm install visa32`
 
 ## example (test_visa_query.js)
 ```javascript
@@ -22,8 +22,5 @@ visa.query('tcpip::' + address + '::instr', query, function(err, result){
 ```
 
 ## commandline call
->```
->> node test_visa_query.js 192.168.123.123 *IDN?
+> `node test_visa_query.js 192.168.123.123 *IDN?`<br>
 Rohde&Schwarz,ESW-26,XXXXXXX,XXXXXX
-```
-
