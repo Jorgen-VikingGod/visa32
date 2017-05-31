@@ -30,7 +30,8 @@ module.exports = {
   close:          function(visaSession, callback){              return visaClose(visaSession, callback);              },
   write:          function(visaSession, queryString, callback){ return visaWrite(visaSession, queryString, callback); },
   read:           function(visaSession, callback){              return visaRead(visaSession, callback);               },
-  query:          function(visaAddress, queryString, callback){ return visaQuery(visaAddress, queryString, callback); }
+  query:          function(visaAddress, queryString, callback){ return visaQuery(visaAddress, queryString, callback); },
+  exec:           function(visaSession, queryString, callback){ return visaExec(visaSession, queryString, callback);  }
 }
 
 // implementation
@@ -93,9 +94,9 @@ function visaRead(visaSession, callback){
   var viRead = ffi.VariadicForeignFunction(viReadPointer, ViStatus, [ViSession, refCharArray, 'int', intPtr]);
   // read back query result
   var outNumberReadBuffLen = ref.alloc('int');  
-  var readBuffer = new charArray(256);
+  var readBuffer = new charArray(512);
   var outReadBuffer = readBuffer.ref();
-  viStatus = viRead()(visaSession, outReadBuffer, 256, outNumberReadBuffLen);
+  viStatus = viRead()(visaSession, outReadBuffer, 512, outNumberReadBuffLen);
   var readBuffLen = outNumberReadBuffLen.deref();
   var returnBuffer = ref.reinterpret(outReadBuffer, readBuffLen, 0);
   if (viStatus) return callback(viStatus);
@@ -150,9 +151,9 @@ function visaQuery(visaAddress, queryString, callback){
   if (viStatus) return callback(viStatus);
   // read back query result
   var outNumberReadBuffLen = ref.alloc('int');  
-  var readBuffer = new charArray(256);
+  var readBuffer = new charArray(512);
   var outReadBuffer = readBuffer.ref();
-  viStatus = viRead()(sessionDevice, outReadBuffer, 256, outNumberReadBuffLen);
+  viStatus = viRead()(sessionDevice, outReadBuffer, 512, outNumberReadBuffLen);
   var readBuffLen = outNumberReadBuffLen.deref();
   var returnBuffer = ref.reinterpret(outReadBuffer, readBuffLen, 0);
   if (viStatus) return callback(viStatus);
@@ -161,4 +162,41 @@ function visaQuery(visaAddress, queryString, callback){
   viClose()(resourceManager);
   // return query result
   callback(null, returnBuffer.toString());
+}
+
+function visaExec(visaAddress, queryString, callback){
+  assert.equal(typeof (visaAddress), 'string', 'argument "visaAddress" must be a string');
+  assert.equal(typeof (queryString), 'string', 'argument "queryString" must be a string');
+  assert.equal(typeof (callback), 'function');
+  var queryStr = queryString + '\n';
+  // exported methods
+  var viOpenDefaultRMPointer  = visa32.get('viOpenDefaultRM');
+  var viOpenPointer           = visa32.get('viOpen');
+  var viWritePointer          = visa32.get('viWrite');
+  var viClosePointer          = visa32.get('viClose');
+  // method definition
+  var viOpenDefaultRM = ffi.VariadicForeignFunction(viOpenDefaultRMPointer, ViStatus, [intPtr]);
+  var viOpen          = ffi.VariadicForeignFunction(viOpenPointer,          ViStatus, [ViSession, 'string', 'int', 'int', intPtr]);
+  var viWrite         = ffi.VariadicForeignFunction(viWritePointer,         ViStatus, [ViSession, 'string', 'int', intPtr]);
+  var viClose         = ffi.VariadicForeignFunction(viClosePointer,         ViStatus, [ViSession]);
+  // open default resource manager
+  var outNumberMaster = ref.alloc('int');
+  viStatus = viOpenDefaultRM()(outNumberMaster);
+  resourceManager = outNumberMaster.deref();
+  if (viStatus) return callback(viStatus);
+  // open session to device
+  var outNumberSession = ref.alloc('int');
+  viStatus = viOpen()(resourceManager, visaAddress, '0', '2000', outNumberSession);
+  sessionDevice = outNumberSession.deref();
+  if (viStatus) return callback(viStatus);
+  // write query to device
+  var outNumberBuffLen = ref.alloc('int');
+  viStatus = viWrite()(sessionDevice, queryStr, queryStr.length, outNumberBuffLen);
+  var buffLen = outNumberBuffLen.deref();
+  if (viStatus) return callback(viStatus);
+  // close session of device and resource manager
+  viClose()(sessionDevice);
+  viClose()(resourceManager);
+  // return true on success
+  callback(null, true);
 }
