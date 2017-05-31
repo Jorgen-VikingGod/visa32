@@ -16,8 +16,8 @@ var assert          = require('assert');
 var ViStatus        = ref.types.int;
 var ViSession       = ref.types.int;
 var intPtr          = ref.refType('int');
-var charArray       = ArrayType(ref.types.char);
-var refCharArray    = ref.refType(charArray);
+var CharArray       = ArrayType('char');
+var refCharArray    = ref.refType(CharArray);
 // library
 var visa32          = ffi.DynamicLibrary(__dirname + '\\lib\\visa64.dll');
 var resourceManager = 0;
@@ -94,9 +94,9 @@ function visaRead(visaSession, callback){
   var viRead = ffi.VariadicForeignFunction(viReadPointer, ViStatus, [ViSession, refCharArray, 'int', intPtr]);
   // read back query result
   var outNumberReadBuffLen = ref.alloc('int');  
-  var readBuffer = new charArray(512);
-  var outReadBuffer = readBuffer.ref();
-  viStatus = viRead()(visaSession, outReadBuffer, 512, outNumberReadBuffLen);
+  var outReadBuffer = new Buffer(512);
+  outReadBuffer.type = ref.types.char;
+  viStatus = viRead()(visaSession, outReadBuffer, outReadBuffer.length, outNumberReadBuffLen);
   var readBuffLen = outNumberReadBuffLen.deref();
   var returnBuffer = ref.reinterpret(outReadBuffer, readBuffLen, 0);
   if (viStatus) return callback(viStatus);
@@ -151,9 +151,9 @@ function visaQuery(visaAddress, queryString, callback){
   if (viStatus) return callback(viStatus);
   // read back query result
   var outNumberReadBuffLen = ref.alloc('int');  
-  var readBuffer = new charArray(512);
-  var outReadBuffer = readBuffer.ref();
-  viStatus = viRead()(sessionDevice, outReadBuffer, 512, outNumberReadBuffLen);
+  var outReadBuffer = new Buffer(512);
+  outReadBuffer.type = ref.types.char;
+  viStatus = viRead()(sessionDevice, outReadBuffer, outReadBuffer.length, outNumberReadBuffLen);
   var readBuffLen = outNumberReadBuffLen.deref();
   var returnBuffer = ref.reinterpret(outReadBuffer, readBuffLen, 0);
   if (viStatus) return callback(viStatus);
