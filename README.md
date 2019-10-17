@@ -1,4 +1,7 @@
 # visa32.js
+> No time to work on!
+> 
+> Please use the improved [ni-visa](https://github.com/petertorelli/ni-visa) module by [Peter Torelli](https://github.com/petertorelli)
 
 Simple VISA SCPI interface for node.js (tested only on Windows7 + Library not for commercial use!!!)
 
